@@ -3,13 +3,20 @@ from src.item import Item
 from unittest.mock import patch, mock_open
 import pytest
 
-def test_calculate_total_price():
-    item1 = Item("Смартфон", 10000, 20)
-    item2 = Item("Ноутбук", 20000, 5)
+@pytest.fixture()
+def item1():
+    return Item("Смартфон", 10000, 20)
 
+def test_calculate_total_price(item1):
     item1.calculate_total_price()
     assert item1.price * item1.quantity == 200000
-    item2.calculate_total_price()
+
+@pytest.fixture()
+def item2():
+    return Item("Ноутбук", 20000, 5)
+
+def test_calculate_total_price(item2):
+    item2
     assert item2.price * item2.quantity == 100000
 
     # устанавливаем новый уровень цен и применяем скидки
@@ -24,7 +31,7 @@ def test_setter_getter():
     name = "Смартфон"
     item1 = Item(name, 10000, 20)
     assert item1.name == name
-    item1.name = "Нуотбук"
+    item1.name = "Ноутбук"
     assert item1.name != name
 
 @pytest.fixture()
