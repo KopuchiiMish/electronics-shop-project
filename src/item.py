@@ -18,7 +18,10 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        self.all.append(self)
+        # self.all.append(self)
+
+    def __repr__(self):
+        return f'Item({self.name}, {self.price}, {self.quantity})'
 
     @property
     def name(self):
@@ -30,19 +33,16 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open("./item.csv") as f:
-            data = csv.DictReader(f)
-            answer =[]
-            for item in data:
-                answer.append(cls(**item))
-            return answer
+        with open('../src/items.csv', 'r', encoding='cp1251') as f:
+            reader = csv.DictReader(f, delimiter=',')
+            cls.all.clear()
+            for row in reader:
+                cls.all.append(cls(row['name'], int(row['price']), int(row['quantity'])))
+            return cls.all
 
     @staticmethod
-    def string_to_number(v):
-        try:
-            return int(v)
-        except:
-            return None
+    def string_to_number(item):
+        return int(float(item))
 
     def calculate_total_price(self) -> float:
         """
@@ -57,3 +57,4 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
