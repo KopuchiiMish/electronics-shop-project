@@ -38,7 +38,6 @@ class Item:
             reader = csv.DictReader(f, delimiter=',')
             for row in reader:
                 cls(row['name'], int(row['price']), int(row['quantity']))
-            return cls.all
 
     @staticmethod
     def string_to_number(item):
