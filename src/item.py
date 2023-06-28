@@ -18,7 +18,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        # self.all.append(self)
+        self.all.append(self)
 
     def __repr__(self):
         return f'Item({self.name}, {self.price}, {self.quantity})'
@@ -33,11 +33,11 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
+        cls.all.clear()
         with open('../src/items.csv', 'r', encoding='cp1251') as f:
             reader = csv.DictReader(f, delimiter=',')
-            cls.all.clear()
             for row in reader:
-                cls.all.append(cls(row['name'], int(row['price']), int(row['quantity'])))
+                cls(row['name'], int(row['price']), int(row['quantity']))
             return cls.all
 
     @staticmethod
