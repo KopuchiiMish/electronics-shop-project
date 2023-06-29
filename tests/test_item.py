@@ -7,6 +7,14 @@ import pytest
 def item1():
     return Item("Смартфон", 10000, 20)
 
+def test_repr():
+    item1 = Item('Смартфон', 10000, 20)
+    assert repr(item1) == "Item('Смартфон', 10000, 20)"
+
+def test_str():
+    item1.name = 'Смартфон'
+    assert str(item1.name) == 'Смартфон'
+
 def test_calculate_total_price(item1):
     item1.calculate_total_price()
     assert item1.price * item1.quantity == 200000
@@ -16,7 +24,8 @@ def item2():
     return Item("Ноутбук", 20000, 5)
 
 def test_calculate_total_price(item2):
-    item2
+    item2.price = 20000
+    item2.quantity = 5
     assert item2.price * item2.quantity == 100000
 
     # устанавливаем новый уровень цен и применяем скидки
@@ -51,3 +60,4 @@ def test_instantiate_from_csv(csv_data):
 def test_string_to_number():
     assert Item.string_to_number("1") == 1
     assert Item.string_to_number("V") is None
+
