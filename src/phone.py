@@ -13,17 +13,4 @@ class Phone(Item):
     def __str__(self) -> str:
         return self.name
 
-    def __add__(self, other):
-        if issubclass(self.__class__, other.__class__):
-            return self.quantity + other.quantity
-        return None
-        # if not isinstance(other, Item):
-        #     raise ValueError('.')
-        # return self.quantity + other.quantity
 
-
-phone1 = Phone("iPhone 14", 120_000, 5, 2)
-item1 = Item("Смартфон", 10000, 20)
-
-result = phone1 + item1
-print(result)

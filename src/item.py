@@ -1,5 +1,8 @@
 import csv
 
+from _pytest.nodes import Item
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -59,4 +62,10 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+    def __add__(self, other):
+        if not isinstance(other, Item):
+            raise ValueError('.')
+        return self.quantity + other.quantity
+
 
