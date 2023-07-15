@@ -1,5 +1,10 @@
 import csv
 
+
+class InstantiateCSVError(Exception):
+    pass
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -36,12 +41,17 @@ class Item:
         self.__name = v if len(v) <= 10 else v[:9]
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path='../src/items.csv'):
         cls.all.clear()
-        with open('../src/items.csv', 'r', encoding='cp1251') as f:
-            reader = csv.DictReader(f, delimiter=',')
-            for row in reader:
-                cls(row['name'], int(row['price']), int(row['quantity']))
+        try:
+            with open(path, 'r', encoding='cp1251') as f:
+                reader = csv.DictReader(f, delimiter=',')
+                for row in reader:
+                    if len(row) != 3:
+                        raise InstantiateCSVError(f'Файл item.csv поврежден')
+                    cls(row['name'], int(row['price']), int(row['quantity']))
+        except FileNotFoundError:
+            raise FileNotFoundError(f'Отсутствует файл items.csv')
 
     @staticmethod
     def string_to_number(item):
@@ -50,7 +60,6 @@ class Item:
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
-
         :return: Общая стоимость товара.
         """
         return self.price * self.quantity
@@ -65,5 +74,3 @@ class Item:
         if not isinstance(other, Item):
             raise ValueError('.')
         return self.quantity + other.quantity
-
-
